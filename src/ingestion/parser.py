@@ -219,20 +219,24 @@ class PaddleOCRParser:
 
 
 class VLMParser:
-    """Fallback parser using a multimodal LLM (OpenAI-compatible vision API)."""
+    """Fallback parser using a multimodal LLM (OpenAI-compatible vision API).
+
+    Uses VLM-specific config (vlm_base_url, vlm_api_key, vlm_model) when set,
+    otherwise falls back to the main LLM config (openai_base_url, etc.).
+    """
 
     def __init__(self):
-        self.client = OpenAI(
-            base_url=settings.openai_base_url,
-            api_key=settings.openai_api_key,
-        )
+        base_url = settings.vlm_base_url or settings.openai_base_url
+        api_key = settings.vlm_api_key or settings.openai_api_key
+        self.model = settings.vlm_model or settings.llm_model
+        self.client = OpenAI(base_url=base_url, api_key=api_key)
 
     async def parse_page_image(self, image: Image.Image, page_num: int) -> str:
         """Send a single page image to vision LLM and get Markdown back."""
         data_url = f"data:image/png;base64,{image_to_base64(image)}"
 
         response = self.client.chat.completions.create(
-            model=settings.llm_model,
+            model=self.model,
             messages=[
                 {
                     "role": "user",

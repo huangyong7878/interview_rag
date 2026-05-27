@@ -7,10 +7,16 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     """Configuration loaded from .env file and environment variables."""
 
-    # OpenAI-compatible API (LLM generation only)
+    # OpenAI-compatible API (LLM generation, reranking, validation)
     openai_base_url: str = "https://api.openai.com/v1"
     openai_api_key: str = ""
     llm_model: str = "gpt-4o"
+
+    # VLM API (vision-language model for PDF page → Markdown parsing)
+    # Falls back to openai_* if not set
+    vlm_base_url: str = ""
+    vlm_api_key: str = ""
+    vlm_model: str = ""
 
     # PDF parser priority: comma-separated list of "paddleocr", "vlm_api", "mineru"
     # e.g. "paddleocr,vlm_api,mineru" (default) or "vlm_api" (skip others)

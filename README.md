@@ -164,6 +164,9 @@ uv run pytest tests/test_ingestion.py tests/test_retrieval.py tests/test_agent.p
 - 声明提取与接地评分计算
 - BM25 检索准确性（给定已知文本，验证召回是否命中目标条款）
 
+### 演示录屏
+
+`interview.mp4` 是从服务启动、文档上传、到逐条提问的完整操作录屏。
 ### 端到端测试
 
 启动服务后运行：
@@ -287,6 +290,7 @@ pipeline = RAGPipeline(
 3. **单文档设计**：当前设计未针对多文档/海量文档做优化（如分片索引、增量更新）
 4. **Reranker 依赖 LLM**：批量评分增加约 1 次 LLM 调用（约 1-3 秒），对 4 页文档性价比有限
 5. **自检依赖 LLM**：LLM-as-judge 本身可能有偏差，已加文本重叠预检缓解
+6. **VLM 和 MinerU 未测试**：因时间限制，当前仅测试了 PaddleOCR 解析链路。VLM API 和 MinerU 的代码路径已实现但未经过完整的端到端验证
 
 ## 技术栈
 
