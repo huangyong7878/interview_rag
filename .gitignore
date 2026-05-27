@@ -1,0 +1,12 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+output/
+.claude/
+CLAUDE.md
+*.egg-info/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
